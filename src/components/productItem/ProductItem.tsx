@@ -1,7 +1,8 @@
 import React from 'react';
+import {useHistory} from 'react-router-dom'
 import { Image, Typography } from 'antd';
 
-interface PropsType {
+interface PropsType{
   id: string | number;
   size: 'large' | 'small';
   title: string;
@@ -16,8 +17,9 @@ const ProductItem: React.FC<PropsType> = ({
   imageSrc,
   price,
 }) => {
+  const history = useHistory();
   return (
-    <>
+    <div onClick={()=>history.push(`detail/${id}`)}>
       {size === 'large' ? (
         <Image src={imageSrc} width={490} height={285} />
       ) : (
@@ -27,7 +29,7 @@ const ProductItem: React.FC<PropsType> = ({
         <Typography.Text type="secondary">{title.slice(0, 25)}</Typography.Text>
         <Typography.Text type="danger">￥{price}起</Typography.Text>
       </div>
-    </>
+    </div>
   );
 };
 
