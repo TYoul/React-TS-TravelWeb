@@ -1,49 +1,71 @@
-import React from 'react';
-import {useHistory} from 'react-router-dom'
-import styles from './Header.module.css';
-import logo from '../../assets/logo.svg';
-import { Layout, Typography, Input, Menu, Button, Dropdown } from 'antd';
-import { GlobalOutlined } from '@ant-design/icons';
+import React from "react";
+import styles from "./Header.module.css";
+import logo from "../../assets/logo.svg";
+import { Layout, Typography, Input, Menu, Button, Dropdown } from "antd";
+import { GlobalOutlined } from "@ant-design/icons";
+import { useHistory } from "react-router-dom";
+import { useSelector } from "../../redux/hooks";
+import { useDispatch } from "react-redux";
+import {
+  changeLanguageAction,
+  addLanguageAction,
+} from "../../redux/language/languageActions";
 
 const Header: React.FC = () => {
   const history = useHistory();
+  const language = useSelector((state) => state.language);
+  const languageList = useSelector((state) => state.languageList);
+  const dispatch = useDispatch();
+
+  const menuClickHandler = (e) => {
+    if (e.key === "new") {
+      const action = addLanguageAction("新语言", "new_language");
+      dispatch(action);
+    } else {
+      const action = changeLanguageAction(e.key);
+      dispatch(action);
+    }
+  };
+
   return (
-    <div className={styles['app-header']}>
+    <div className={styles["app-header"]}>
       {/* top-header */}
-      <div className={styles['top-header']}>
+      <div className={styles["top-header"]}>
         <div className={styles.inner}>
           <Typography.Text>让旅游更幸福</Typography.Text>
           <Dropdown.Button
             style={{ marginLeft: 15 }}
             overlay={
-              <Menu>
-                <Menu.Item>中文</Menu.Item>
-                <Menu.Item>English</Menu.Item>
+              <Menu onClick={(e) => menuClickHandler(e)}>
+                {languageList.map((l) => {
+                  return <Menu.Item key={l.code}>{l.name}</Menu.Item>;
+                })}
+                <Menu.Item key="new">添加语言</Menu.Item>
               </Menu>
             }
             icon={<GlobalOutlined />}
           >
-            语言
+            {language === "zh" ? "中文" : "English"}
           </Dropdown.Button>
-          <Button.Group className={styles['button-group']}>
-            <Button onClick={()=>history.push('/register')}>注册</Button>
-            <Button onClick={()=>history.push('/signIn')}>登录</Button>
+          <Button.Group className={styles["button-group"]}>
+            <Button onClick={() => history.push("/register")}>注册</Button>
+            <Button onClick={() => history.push("/signIn")}>登录</Button>
           </Button.Group>
         </div>
       </div>
-      <Layout.Header className={styles['main-header']}>
-        <span onClick={()=>history.push('/')}>
-          <img src={logo} alt="" className={styles['App-logo']} />
-          <Typography.Title level={3} className={styles['title']}>
+      <Layout.Header className={styles["main-header"]}>
+        <span onClick={() => history.push("/")}>
+          <img src={logo} alt="" className={styles["App-logo"]} />
+          <Typography.Title level={3} className={styles["title"]}>
             React 旅游网
           </Typography.Title>
         </span>
         <Input.Search
-          placeholder={'请输入旅游目的地、主题、或关键字'}
-          className={styles['search-input']}
+          placeholder={"请输入旅游目的地、主题、或关键字"}
+          className={styles["search-input"]}
         />
       </Layout.Header>
-      <Menu mode="horizontal" className={styles['main-menu']}>
+      <Menu mode="horizontal" className={styles["main-menu"]}>
         <Menu.Item key="1">旅游首页</Menu.Item>
         <Menu.Item key="2">周末游</Menu.Item>
         <Menu.Item key="3">跟团游</Menu.Item>

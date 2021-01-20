@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./HomePage.module.css";
-import {Col, Row, Typography} from "antd";
+import { Col, Row, Typography } from "antd";
 
 import Header from "../../components/header/Header";
 import SideMenu from "../../components/sideMenu/SideMenu";
@@ -9,18 +9,18 @@ import Footer from "../../components/footer/Footer";
 import ProductionCollection from "../../components/productCollection/ProductCollection";
 import BusinessPartners from "../../components/businessPartners/BusinessPartners";
 
-import {productList1, productList2, productList3} from "./mockups";
+import { productList1, productList2, productList3 } from "./mockups";
 import sideImage1 from "../../assets/images/sider_2019_12-09.png";
 import sideImage2 from "../../assets/images/sider_2019_02-04.png";
 import sideImage3 from "../../assets/images/sider_2019_02-04-2.png";
 
-const HomePage:React.FC = () => {
+const HomePage: React.FC = () => {
   return (
     <>
       <Header />
       {/* 页面内容 content */}
-      <div className={styles['page-content']}>
-        <Row style={{ marginTop: '20px' }}>
+      <div className={styles["page-content"]}>
+        <Row style={{ marginTop: "20px" }}>
           <Col span={6}>
             <SideMenu />
           </Col>
@@ -56,10 +56,10 @@ const HomePage:React.FC = () => {
           products={productList3}
         />
       </div>
-      <BusinessPartners/>
+      <BusinessPartners />
       <Footer />
     </>
-  )
-}
+  );
+};
 
 export default HomePage;
